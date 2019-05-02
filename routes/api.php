@@ -21,6 +21,7 @@
 	/**
 	 * Routes for users
 	 */
+	Route::middleware('auth:api')->get('/users/stories', "UserController@stories");
 	Route::middleware('auth:api')->get('/users/profile', "UserController@showProfile");
 
 	Route::middleware('auth:api')->put('/users/profile', "UserController@updateProfile");
@@ -32,6 +33,7 @@
 	/**
 	 * Routes for bookmarks
 	 */
+    Route::middleware('auth:api')->get('/bookmarks/stories', "BookmarkController@index");
 	Route::middleware('auth:api')->post('/bookmarks/stories/{storyId}', "BookmarkController@add");
 
 	Route::middleware('auth:api')->delete('/bookmarks/stories/{storyId}', "BookmarkController@remove");
@@ -53,8 +55,9 @@
 	Route::middleware('auth:api')->post('/stories', "StoryController@store");
 
 	Route::get('/stories', "StoryController@index");
-
 	Route::get('/stories/{id}', "StoryController@show");
+
+	// Route::get('/stories/{id}', "StoryController@show");
 
 	Route::middleware('auth:api')->post('/stories/{id}', "StoryController@update");
 
@@ -75,3 +78,10 @@
 	 * Routes for payment
 	 */
 	Route::middleware('auth:api')->post('/payments', "PaymentController@store");
+
+	/**
+     * Routes for tags
+     */
+    Route::get('/tags','TagController@index');
+
+    Route::get('/tags/stories/search/{tagName}', 'TagController@storiesByTag');

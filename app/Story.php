@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Story extends Model
 {
     protected $fillable = [
-        'title', 'body', 'category_id', 'age', 'author', 'image_url', 'image_name', 
+        'title', 'body', 'category_id', 'age_from', 'age_to', 'author', 'image_url', 'image_name',
         'story_duration', 'user_id', 'is_premium'
     ];
 
@@ -45,5 +45,18 @@ class Story extends Model
         return $this->hasMany(Reaction::class);
     }
 
+    public function bookmarkedBy()
+    {
+        return $this->belongsToMany(Users::class,'bookmarks');
+    }
+
     //Relationship end
+
+    /*
+     * A Story belongs to many tags
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }

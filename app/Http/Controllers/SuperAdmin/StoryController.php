@@ -52,12 +52,13 @@ class StoryController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'photo'=>'nullable|mimes:jpeg,jpg,png|max:800', //Max 800KB
         ]);
 
-        $exists = Stories::where('name', 'LIKE', "%{$request->name}")->first();
+        $exists = Story::where('name', 'LIKE', "%{$request->name}")->first();
 
         if ($exists) {
             return redirect()->back()->withError(__("Stories '{$request->name}' already exists."));
@@ -98,9 +99,10 @@ class StoryController extends Controller
      */
     public function edit($id)
     {
-        $stories = Stories::find($id);
+        $stories = Story::find($id);
+        $category=$stories->category;
         
-        return view('admin.stories.edit', compact('stories'));
+        return view('admin.stories.edit', compact('stories','category'));
     }
 
     /**
@@ -119,7 +121,7 @@ class StoryController extends Controller
 
         $stories = Stories::findOrFail($id);
 
-        $exists = Stories::where('name', 'LIKE', "%{$request->name}")
+        $exists = Story::where('name', 'LIKE', "%{$request->name}")
                             ->where('id', '!=', $stories->id)
                             ->first();
 
@@ -158,7 +160,7 @@ class StoryController extends Controller
      */
     public function destroy($id)
     {
-        $stories = Stories::find($id);
+        $stories = Story::find($id);
 
         $stories->delete();
 

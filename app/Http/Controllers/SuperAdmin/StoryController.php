@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\FileUploadService;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Auth;
 class StoryController extends Controller
 {
     /**
@@ -25,7 +26,7 @@ class StoryController extends Controller
      */
     public function index()
     {
-        $stories = Story::latest()->paginate(25);
+        $stories = Story::latest()->paginate(10);
         return view('admin.stories.index', compact('stories'));
     }
     /**
@@ -35,7 +36,8 @@ class StoryController extends Controller
      */
     public function create()
     {
-        return view('admin.stories.create');
+        $allCategories=\App\Category::all();
+        return view('admin.stories.create',compact('allCategories'));
     }
     /**
      * Create a resource
@@ -45,7 +47,8 @@ class StoryController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+
+      /*  $this->validate($request, [
             'title' => 'required|string|max:255',
             'body' => 'required|string',
             'author' => 'required|string|max:255',
@@ -60,6 +63,8 @@ class StoryController extends Controller
            
             
         ]);
+        */
+
         $exists = Story::where('title', 'LIKE', "%{$request->title}")->first();
         if ($exists) {
             return redirect()->back()->withError(__("Story '{$request->title}' already exists."));
@@ -70,6 +75,8 @@ class StoryController extends Controller
         if($request->hasFile('photo')) {
             $image = $this->fileUploadService->uploadFile($request->file('photo'));
         }
+      //  return Auth::guard('admin')->user();
+        $user=(Auth::guard('admin')->check()) ? 1000 : Auth::user()->id;
 // 
         Story::create([
              'title'=> $request-> title,
@@ -82,7 +89,7 @@ class StoryController extends Controller
             "image_url" => $image['secure_url']?? null,
             "image_name" => $image['public_id'] ?? null,
             'created_at' =>  $request-> created_at,            
-            'user_id' =>  $request-> user_id
+            'user_id' => $user
    
         ]);
         DB::commit();
@@ -97,8 +104,9 @@ class StoryController extends Controller
     public function edit($id)
     {
         $story = Story::find($id);
+        $allCategories=\App\Category::all();
         
-        return view('admin.stories.edit', compact('story'));
+        return view('admin.stories.edit', compact('story','allCategories'));
     }
     /**
      * Update resource

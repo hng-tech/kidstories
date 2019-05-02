@@ -36,6 +36,10 @@
                                 </button>
                             </div>
                         @endif
+                        @foreach($errors as $error)
+                        {{$error}}
+                        <br>
+                        @endforeach
                          
                         <form method="post" action="{{ route('stories.update', $story->id) }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
@@ -47,7 +51,7 @@
  <!---------------------------------------------------------------------------------------------------TITLE-------------------------------------------------------------------------------->                             
                                 <div class="form-group{{ $errors->has('title') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-title">{{ __('Title') }} *</label>
-                                    <input style="width:500px;" type="text" name="title" id="input-title" class="form-control form-control-alternative{{ $errors->has('title') ? ' is-invalid' : '' }}" placeholder="{{ __('Title') }}" value="{{ old('title') }}" required>
+                                    <input style="width:500px;" type="text" name="title" id="input-title" class="form-control form-control-alternative{{ $errors->has('title') ? ' is-invalid' : '' }}" placeholder="{{ __('Title') }}" value="{{ $story->title }}" required>
 
                                     @if ($errors->has('title'))
                                         <span class="invalid-feedback" role="alert">
@@ -59,8 +63,8 @@
                             
                             <div class="form-group{{ $errors->has('body') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-title">{{ __('Story') }} *</label>
-                                    <textarea style="height:200px" type="text" name="body" id="input-body" class="form-control form-control-alternative{{ $errors->has('body') ? ' is-invalid' : '' }}" placeholder="{{ __('Story') }}" value="{{old('body') }}" required>
-                                   {{old('body') }}
+                                    <textarea style="height:200px" type="text" name="body" id="input-body" class="form-control form-control-alternative{{ $errors->has('body') ? ' is-invalid' : '' }}" placeholder="{{ __('Story') }}" value="{{ $story->body }}" required>
+                                   {{ $story->body }}
                                    </textarea>
                                     @if ($errors->has('body'))
                                         <span class="invalid-feedback" role="alert">
@@ -72,7 +76,7 @@
 <!---------------------------------------------------------------------------------------------------AUTHOR------------------------------------------------------------->
                             <div class="form-group{{ $errors->has('author') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-title">{{ __('Author') }} *</label>
-                                    <input style="width:500px;" type="text" name="author" id="input-author" class="form-control form-control-alternative{{ $errors->has('author') ? ' is-invalid' : '' }}" placeholder="{{ __('Author') }}" value="{{ old('author') }}" required>
+                                    <input style="width:500px;" type="text" name="author" id="input-author" class="form-control form-control-alternative{{ $errors->has('author') ? ' is-invalid' : '' }}" placeholder="{{ __('Author') }}" value="{{ $story->author }}" required>
 
                                     @if ($errors->has('author'))
                                         <span class="invalid-feedback" role="alert">
@@ -85,19 +89,16 @@
                                <label class="form-control-label" for="input-title">{{ __('Category') }} *</label> 
                                
                                    <br>
-                                    <input type="checkbox" name="category_id" value="Poem"> Poem
-                                    <br>
-                                    <br>
-                                    <input type="checkbox" name="category_id" value="Fiction"> Fiction
-                                    <br>
-                                    <br>
-                                    <input type="checkbox" name="category_id" value="Moral"> Moral
-                                <br>                                      
+                                   @foreach($allCategories as $category)
+                                    <input type="checkbox" name="category_id" value="{{$category->id}}" @if($story->category_id == $category['id'])  checked=""  @endif> {{ $category->name }}
+                                    
+                                    @endforeach
+                                                            
                             </div>                           
 <!---------------------------------------------------------------------------------------------------AGE------------------------------------------------------------->
                             <div class="form-group{{ $errors->has('age') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-title">{{ __('Age') }} *</label>
-                                    <input style="width:500px;" type="text" name="age" id="input-author" class="form-control form-control-alternative{{ $errors->has('age') ? ' is-invalid' : '' }}" placeholder="{{ __('Age') }}" value="{{ old('age') }}" required>
+                                    <input style="width:500px;" type="text" name="age" id="input-author" class="form-control form-control-alternative{{ $errors->has('age') ? ' is-invalid' : '' }}" placeholder="{{ __('Age') }}" value="{{ $story->age }}" required>
 
                                     @if ($errors->has('age'))
                                         <span class="invalid-feedback" role="alert">
@@ -111,7 +112,7 @@
                             <div class="form-group{{ $errors->has('story_duration') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-story_duration">{{ __('Story Duration') }}</label>
                                     
-                                    <input style="width:500px;" type="text" name="story_duration" id="input-story_duration" class="form-control form-control-alternative{{ $errors->has('story_duration') ? ' is-invalid' : '' }}" placeholder="{{ __('story_duration') }}" value="{{ old('story_duration') }}">
+                                    <input style="width:500px;" type="text" name="story_duration" id="input-story_duration" class="form-control form-control-alternative{{ $errors->has('story_duration') ? ' is-invalid' : '' }}" placeholder="{{ __('story_duration') }}" value="{{ $story->story_duration }}">
                                     @if ($errors->has('story_duration'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('story_duration') }}</strong>
@@ -122,8 +123,8 @@
                          
                             <div class="form-group{{ $errors->has('is_premium') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-is_premium">{{ __('Subscription') }}</label><br>                                    
-                                    <input type="radio" name="is_premium" value="male"> Premium<br>
-                                    <input type="radio" name="is_premium" value="female"> Regular<br>
+                                    <input type="radio" name="is_premium" value="male" @if($story->subscription == true) checked="" @endif> Premium<br>
+                                    <input type="radio" name="is_premium" value="female" @if($story->subscription == false) checked="" @endif > Regular<br>
                                     
                                 @if ($errors->has('is_premium'))
                                     <span class="invalid-feedback" role="alert">
@@ -144,15 +145,9 @@
                                     @endif
                             </div>
 <!---------------------------------------------------------------------------------------------------Updated at ------------------------------------------------------------->
-                            <div class="form-group{{ $errors->has('updated_at') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-updated_at">{{ __('Updated at') }}</label>                                    
-                                    <input style="width:300px;" type="text" name="updated_at" id="input-updated_at" class="form-control form-control-alternative{{ $errors->has('updated_at') ? ' is-invalid' : '' }}" placeholder="{{ __('updated_at') }}" value="<?php echo date(DATE_RFC822); ?>">
-                            </div>
+                            
 <!---------------------------------------------------------------------------------------------------User ------------------------------------------------------------->
-                            <div class="form-group{{ $errors->has('story_duration') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-story_duration">{{ __('User ID') }}</label>                                    
-                                    <input type="text" style="width:300px;" name="user_id" id="input-user_id" class="form-control form-control-alternative{{ $errors->has('user_id') ? ' is-invalid' : '' }}" placeholder="{{ __('user_id') }}" value="{{ Auth::guard('admin')->user()->name}} " readonly>
-                            </div>                         
+                                                  
 <!---------------------------------------------------------------------------------------------------FOOT------------------------------------------------------------->
                                 {{-- <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-password">{{ __('Password') }}</label>

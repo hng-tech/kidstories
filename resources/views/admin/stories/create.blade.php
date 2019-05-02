@@ -82,14 +82,11 @@
                             <div class="form-group{{ $errors->has('category_id') ? ' has-danger' : '' }}">
                                <label class="form-control-label" for="input-title">{{ __('Category') }} *</label>                                                                                                    
                                    <br>
-                                    <input type="checkbox" name="category_id" value="Poem"> Poem
-                                    <br>
-                                    <br>
-                                    <input type="checkbox" name="category_id" value="Fiction"> Fiction
-                                    <br>
-                                    <br>
-                                    <input type="checkbox" name="category_id" value="Moral"> Moral
-                                <br>                                      
+                                    @foreach($allCategories as $category)
+                                    <input type="checkbox" name="category_id" value="{{$category->id}}" > {{ $category->name }}
+                                    
+                                    @endforeach
+                                                    
                             </div>                           
 <!---------------------------------------------------------------------------------------------------AGE------------------------------------------------------------->
                             <div class="form-group{{ $errors->has('age') ? ' has-danger' : '' }}">
@@ -116,8 +113,8 @@
 <!---------------------------------------------------------------------------------------------------PRMIUM------------------------------------------------------------->                                                   
                             <div class="form-group{{ $errors->has('is_premium') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-is_premium">{{ __('Subscription') }}</label><br>                                    
-                                    <input type="radio" name="is_premium" value="Premium"> Premium<br>
-                                    <input type="radio" name="is_premium" value="Regular"> Regular<br>                                    
+                                    <input type="radio" name="is_premium" value="1"> Premium<br>
+                                    <input type="radio" name="is_premium" value="0"> Regular<br>                                    
                                 @if ($errors->has('is_premium'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('is_premium') }}</strong>

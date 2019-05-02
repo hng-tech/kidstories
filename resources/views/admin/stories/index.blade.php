@@ -35,18 +35,14 @@
                                 <tr>
                                     <th scope="col">{{ __('Title') }}</th>
 
-                                    <th scope="col">{{ __('Body') }}</th>
                                     <th scope="col">{{ __('Category') }}</th>                                                                      
                                     <th scope="col">{{ __('Posted By') }}</th>
-                                    <th scope="col">{{ __('Image Url') }}</th>
-                                    <th scope="col">{{ __('Image Name') }}</th>
+                                   
+                              
                                     <th scope="col">{{ __('Age') }}</th>
                                     <th scope="col">{{ __('Author') }}</th>
-                                    <th scope="col">{{ __('story duration') }}</th>
-                                    <th scope="col">{{ __('Subscription') }}</th>
-                                    <th scope="col">{{ __('Posted On') }}</th>
-                                    <th scope="col">{{ __('Modified at') }}</th>
-                                     <th scope="col"></th>
+                                 
+                               
                           
                                 </tr>                         
                             </thead>
@@ -56,21 +52,14 @@
                                     <tr>
 
                                         <td><p>{{ $story->title}}</p></td>
-                                        <td>{{ $story->body }}</td>
-                                         <td>{{ $story->category_id }}</td>
-                                         <td>{{ Auth::guard('admin')->user()->name}}</td>
-                                         <td>
-                                            @if ($story->image_url)
-                                                <a href="{{ $story->image_url }}" target="_blank">View image</a>                                          
-                                            @endif
-                                        </td> 
-                                        <td><p>{{ $story->image_name}}</p></td>
+                                   
+                                         <td>{{ $story->category->name }}</td>
+                                         <td>{{ $story->user->first_name}} {{$story->user->last_name}}</td>
+                                        
                                         <td>{{ $story->age }}</td>
                                         <td>{{ $story->author }}</td>
-                                        <td>{{ $story->story_duration }}</td>
-                                        <td>{{ $story->is_premium}}</p></td> 
-                                        <td>{{ $story->created_at }}</td>
-                                        <td>{{ $story->updated_at }}</td>
+                                  
+                                
         
 
 
@@ -100,12 +89,15 @@
                     </div>
                     <div class="card-footer py-4">
                         <nav class="d-flex justify-content-end" aria-label="...">
-                             
+                                <div>
+            {{  $stories->links()  }}
+        </div>
                         </nav>
                     </div>
                 </div>
             </div>
         </div>
+     
             
         @include('admin.layouts.footers.auth')
     </div>

@@ -89,7 +89,7 @@ class StoryController extends Controller
             'category_id' => $request-> category_id,             
             "image_url" => $image['secure_url']?? null,
             "image_name" => $image['public_id'] ?? null,
-            'created_at' =>  $request-> created_at,            
+                     
             'user_id' => $user
    
         ]);

@@ -3,9 +3,14 @@ body, input, button {
     font-family: 'Lato', san-serif;
 }
 
-
 .container1 {
-    width: 70%;
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.container2 {
+    max-width: 99%;
     margin: auto;
     overflow: hidden;
 }
@@ -55,7 +60,7 @@ body, input, button {
 .min-nav ul {
     display: flex;
     list-style: none;
-    padding-left: 180px;
+    padding-left: 108px;
 }
 
 nav a, .min-nav ul i  {
@@ -80,7 +85,7 @@ h1.span {
 
 /* Picture Container */
 .wrapper {
-    width: 70%;
+    width: 80%;
     margin: auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr) );
@@ -136,22 +141,58 @@ div.info:hover {
 }
 /* Picture Container ends */
 
+/* App section */
+
+
 /* Media Queries for responsiveness */
+@media(min-width: 2560px) {
+    .content {
+        padding-top: 70px;
+    }
+}
+
+@media(min-width: 1440px) {
+    .content {
+        padding-top: 100px;
+    }
+
+    .min-nav ul {
+        padding-left: 100px;     
+    }
+}
+
 @media(max-width: 1024px) {
     .min-nav ul {
-        padding-left: 105px;     
+        padding-left: 55px;     
+    }
+}
+
+@media(max-width:992px) {
+    .container2 {
+        width: 80%;
+    }
+
+    .applink {
+        padding-top: 20px;
+        padding-bottom: 30px;
     }
 }
 
 @media(max-width: 800px) {
     .min-nav ul {
-        padding-left: 67px;     
+        padding-left: 30px;     
     }
 }
 
 @media(max-width: 430px) {
     .min-nav ul {
-        padding-left: 20px;     
+        padding-left: 0px;     
+    }
+}
+
+@media(max-width: 396px) {
+    a.slideInLeft {
+    padding-bottom: 20px;
     }
 }
 
@@ -163,5 +204,9 @@ div.info:hover {
     .wrapper {
        width: 20%;
        padding-right: 300px;   
+    }
+
+    .container2 {
+        width: 90%;
     }
 }

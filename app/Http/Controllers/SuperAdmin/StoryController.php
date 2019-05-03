@@ -48,22 +48,22 @@ class StoryController extends Controller
     public function store(Request $request)
     {
 
-      /*  $this->validate($request, [
+        $this->validate($request, [
             'title' => 'required|string|max:255',
             'body' => 'required|string',
             'author' => 'required|string|max:255',
             'story_duration' => 'required|string|max:255',                
             'is_premium' => 'required|string|max:255',            
             'age' => 'required|string|max:255',
-            'category_id' => 'required|string|max:255',            
+           // 'category_id' => 'required|string|max:255',            
             'photo'=>'nullable|mimes:jpeg,jpg,png|max:800', //Max 800KB
-            'created_at' => 'required',            
-            'user_id' => 'required',
+           // 'created_at' => 'required',            
+           // 'user_id' => 'required',
             
            
             
         ]);
-        */
+        
 
         $exists = Story::where('title', 'LIKE', "%{$request->title}")->first();
         if ($exists) {
@@ -76,8 +76,9 @@ class StoryController extends Controller
             $image = $this->fileUploadService->uploadFile($request->file('photo'));
         }
       //  return Auth::guard('admin')->user();
-        $user=(Auth::guard('admin')->check()) ? 1000 : Auth::user()->id;
+        $user=(Auth::guard('admin')->check()) ? 1: Auth::user()->id;
 // 
+       //return $request->all();
         Story::create([
              'title'=> $request-> title,
             'body' => $request-> body,            
@@ -121,13 +122,12 @@ class StoryController extends Controller
             'title' => 'required|string|max:255',
             'body' => 'required|string',
             'author' => 'required|string|max:255',
-            'story_duration' => 'required|string|max:255',                
+           // 'story_duration' => 'required|string|max:255',                
             'is_premium' => 'required|string|max:255',            
             'age' => 'required|string|max:255',
-            'category_id' => 'required|string|max:255',            
+                   
             'photo'=>'nullable|mimes:jpeg,jpg,png|max:800', //Max 800KB            
-            'updated_at' => 'required',
-            'user_id' => 'required',            
+                  
             
         ]);
         $stories = Story::findOrFail($id);
@@ -152,11 +152,10 @@ class StoryController extends Controller
             'author' => $request-> author,      
             'story_duration' => $request-> story_duration,            
             'is_premium' => $request-> is_premium,
-            'category_id' => $request-> category_id,             
-            "image_url" => $image['secure_url']?? null,
-            "image_name" => $image['public_id'] ?? null,           
-            'updated_at' =>  $request-> updated_at,
-            'user_id' =>  $request-> user_id   
+                   
+            "image_url" => $image['secure_url']?? $stories->image_url,
+            "image_name" => $image['public_id'] ?? $stories->image_name,           
+             
         ]);
         DB::commit();
         return redirect()->route('stories.index')->withStatus(__('Stories successfully updated.'));

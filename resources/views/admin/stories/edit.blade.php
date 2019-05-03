@@ -123,8 +123,8 @@
                          
                             <div class="form-group{{ $errors->has('is_premium') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-is_premium">{{ __('Subscription') }}</label><br>                                    
-                                    <input type="radio" name="is_premium" value="male" @if($story->subscription == true) checked="" @endif> Premium<br>
-                                    <input type="radio" name="is_premium" value="female" @if($story->subscription == false) checked="" @endif > Regular<br>
+                                    <input type="radio" name="is_premium" value="1" @if($story->subscription == true) checked="" @endif> Premium<br>
+                                    <input type="radio" name="is_premium" value="0" @if($story->subscription == false) checked="" @endif > Regular<br>
                                     
                                 @if ($errors->has('is_premium'))
                                     <span class="invalid-feedback" role="alert">
@@ -137,6 +137,10 @@
                             <div class="form-group{{ $errors->has('photo') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-photo">{{ __('Photo') }} <i>(Optional)</i></label>
                                     <input style="width:500px;" type="file" name="photo" id="input-photo" class="form-control form-control-alternative{{ $errors->has('photo') ? ' is-invalid' : '' }}" placeholder="{{ __('Photo') }}" value="{{ old('photo') }}">
+                                    <br>
+                                    <div>
+                                        <img src="{{  $story->image_url  }}" width="200" height="200">
+                                    </div>
 
                                     @if ($errors->has('photo'))
                                         <span class="invalid-feedback" role="alert">

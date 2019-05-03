@@ -133,15 +133,9 @@
                                     @endif
                             </div>
 <!---------------------------------------------------------------------------------------------------created at ------------------------------------------------------------->
-                            <div class="form-group{{ $errors->has('created_at') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-created_at">{{ __('Created at') }}</label>                                    
-                                    <input style="width:300px;" name="created_at" id="input-created_at" class="form-control form-control-alternative{{ $errors->has('created_at') ? ' is-invalid' : '' }}" placeholder="{{ __('created_at') }}" value="<?php echo date(DATE_RFC822); ?>">
-                            </div>
+                          
 <!---------------------------------------------------------------------------------------------------User ------------------------------------------------------------->
-                            <div class="form-group{{ $errors->has('user_id') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-user_id">{{ __('User ID') }}</label>                                    
-                                    <input type="text" style="width:300px;" name="user_id" id="input-user_id" class="form-control form-control-alternative{{ $errors->has('user_id') ? ' is-invalid' : '' }}" placeholder="{{ __('user_id') }}" value="{{ Auth::guard('admin')->user()->name}} " readonly>
-                            </div>
+                            
 <!---------------------------------------------------------------------------------------------------FOOT------------------------------------------------------------->
                                 {{-- <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-password">{{ __('Password') }}</label>
